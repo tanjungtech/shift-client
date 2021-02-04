@@ -17,7 +17,14 @@ const getMonDuringWeek = (date: any) => {
   const mon = ((date.getDay() + 7) - 1) % 7
   let base_date = date
   base_date.setDate(base_date.getDate() - mon)
-  return base_date
+  return new Date(base_date.getFullYear(), base_date.getMonth(), base_date.getDate(), 0, 0)
+}
+
+const getSunDuringWeek = (date: any) => {
+  const sun = (date.getDay() + 7) % 7
+  let base_date = new Date(date)
+  base_date.setDate(base_date.getDate() - sun + 7)
+  return new Date(base_date.getFullYear(), base_date.getMonth(), base_date.getDate(), base_date.getHours(), base_date.getMinutes())
 }
 
 const formatIntoWeekLabel = ( current_date:any ) => {
@@ -43,4 +50,17 @@ const formatIntoWeekLabel = ( current_date:any ) => {
   }
 }
 
-export { formatIntoDate, formatIntoCalendarLabel, getMonDuringWeek, formatIntoWeekLabel }
+const formatIntoStartAndEnd = (date_start: any, date_end: any) => {
+  const start = setIntlFormat(date_start, { timeStyle: 'short' })
+  const end = setIntlFormat(date_end, { timeStyle: 'short' })
+  return { start, end }
+}
+
+export {
+  formatIntoDate,
+  formatIntoCalendarLabel,
+  getMonDuringWeek,
+  getSunDuringWeek,
+  formatIntoWeekLabel,
+  formatIntoStartAndEnd
+}
